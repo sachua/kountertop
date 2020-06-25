@@ -1,0 +1,4 @@
+- job_name: "prometheus"
+  static_configs:
+  - targets: ["host:port"]
+  metrics_path: "/monitoring/prometheus/metrics"

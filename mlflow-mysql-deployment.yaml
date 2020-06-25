@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflowdb
+  namespace: default
+  labels:
+    app: mlflow
+    component: mysql
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mlflow
+      component: mysql
+  template:
+    metadata:
+      name: mlflow-mysql
+      labels:
+        app: mlflow
+        component: mysql
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+      - name: mlflowdb
+        image: mysql/mysql-server:5.7.28
+        env:
+        - name: MYSQL_DATABASE
+          value: 'mlflow_database'
+        - name: MYSQL_USER
+          value: 'mlflow_user'
+        - name: MYSQL_PASSWORD
+          value: 'mlflow'
+        - name: MYSQL_ROOT_PASSWORD
+          value: 'mysql'
+        ports:
+        - containerPort: 3306
+          name: mlflowdb
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mlflow-mysql
+      volumes:
+      - name: mlflow-mysql
+        persistentVolumeClaim:
+          claimName: mlflow-mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow-mysql
+  labels:
+    app: mlflow
+    component: mysql
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      protocol: TCP
+      name: mlflow-mysql
+  selector:
+    app: mlflow
+    component: mysql
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mlflow-mysql
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

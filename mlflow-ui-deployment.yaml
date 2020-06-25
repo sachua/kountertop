@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow-ui
+  namespace: default
+  labels:
+    app: mlflow
+    component: ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow
+      component: ui
+  template:
+    metadata:
+      name: mlflow-ui
+      labels:
+        app: mlflow
+        component: ui
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+      - name: mlflow-server
+        image: mlflow_server
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh"]
+        args: ["-c","mlflow server --backend-store-uri mysql+pymysql://mlflow_user:mlflow@mlflow-mysql.default:3306/mlflow_database --default-artifact-root s3://mlflow/ --host 0.0.0.0"]
+        env:
+        - name: MLFLOW_S3_ENDPOINT_URL
+          value: 'http://minio.default:9000'
+        - name: AWS_ACCESS_KEY_ID
+          value: 'minio'
+        - name: AWS_SECRET_ACCESS_KEY
+          value: 'minio123'
+        ports:
+        - containerPort: 5000
+          name: ui
+      serviceAccountName: mlflow-ui
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: mlflow-ui
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - namespaces
+  verbs:
+  - "*"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mlflow-ui
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: mlflow-ui
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: mlflow-ui
+subjects:
+- kind: ServiceAccount
+  name: mlflow-ui
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow-ui
+  labels:
+    app: mlflow
+    component: ui
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      protocol: TCP
+      name: ui
+      targetPort: 5000
+  selector:
+    app: mlflow
+    component: ui

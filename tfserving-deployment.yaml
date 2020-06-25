@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tfserving
+  labels:
+    app: tfserving
+spec:
+  selector:
+    matchLabels:
+      app: tfserving
+  template:
+    metadata:
+      labels:
+        app: tfserving
+        version: v1
+    spec:
+      containers:
+      - name: tfserving
+        image: tensorflow/serving:latest
+        imagePullPolicy: IfNotPresent
+        args:
+        - --port=8500
+        - --rest_api_port=8501
+        - --monitoring_config_file=s3://config/prometheus.config
+        - --model_config_file=s3://config/models.config
+        - --model_config_file_poll_wait_seconds=60
+        env:
+        - name: S3_ENDPOINT
+          value: 'minio.default:9000'
+        - name: AWS_ACCESS_KEY_ID
+          value: 'minio'
+        - name: AWS_SECRET_ACCESS_KEY
+          value: 'minio123'
+        - name: TF_CPP_MIN_LOG_LEVEL
+          value: '3' 
+        - name: S3_USE_HTTPS
+          value: '0'
+        - name: S3_USE_SSL
+          value: '0' 
+        ports:
+        - containerPort: 8500
+        - containerPort: 8501
+        resources:
+          limits:
+            cpu: '100m'
+          requests:
+            cpu: '50m'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tfserving
+spec:
+  type: LoadBalancer
+  ports:
+    - name: grpc-tf-serving
+      port: 8500
+      targetPort: 8500
+    - name: http-tf-serving
+      port: 8501
+      targetPort: 8501
+  selector:
+    app: tfserving
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: tfserving
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: tfserving
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 50

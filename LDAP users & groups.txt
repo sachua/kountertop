@@ -1,0 +1,36 @@
+dn: ou=People,dc=example,dc=com
+objectClass: organizationalUnit
+ou: People
+
+
+dn: cn=sachua,ou=People,dc=example,dc=com
+objectClass: person
+objectClass: inetOrgPerson
+givenName: Song Ann
+sn: Chua
+cn: sachua
+uid: sachua
+mail: sachua@example.com
+userpassword: 12341234
+
+
+dn: ou=Groups,dc=example,dc=com
+objectClass: organizationalUnit
+ou: Groups
+
+
+dn: cn=developers,ou=Groups,dc=example,dc=com
+objectClass: groupOfNames
+cn: developers
+member: cn=Chua Song Ann,ou=People,dc=example,dc=com
+
+
+dn: cn=admin,ou=People,dc=example,dc=com
+objectClass: person
+objectClass: inetOrgPerson
+givenName: admin
+sn: admin
+cn: admin
+uid: admin
+mail: admin@example.com
+userpassword: P@ssw0rd
