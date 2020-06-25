@@ -40,8 +40,6 @@ Enable MicroK8s add-ons
 
 ```bash
 microk8s enable dns storage metrics-server metallb prometheus
-microk8s.stop
-microk8s.start
 ```
 
 ### Installation
