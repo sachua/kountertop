@@ -101,7 +101,8 @@ microk8s.start
 6. Deploy Velero
 
     ```bash
-    export PATH=$PATH:"/$HOME/Kountertop"
+    tar -xzvf velero.tgz
+    export PATH=$PATH:"/$HOME/kountertop"
     velero install \
      --provider aws \
      --plugins harbor.dev.gov.sg/kountertop/velero/velero-plugin-for-aws:v1.1.0 \
