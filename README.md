@@ -39,7 +39,7 @@ sh push_images.sh
 Enable MicroK8s add-ons
 
 ```bash
-microk8s enable dns storage metrics-server metallb prometheus
+microk8s enable dns storage metrics-server metallb prometheus helm3
 ```
 
 ### Installation
