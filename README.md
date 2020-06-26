@@ -144,3 +144,18 @@ microk8s enable dns storage metrics-server metallb prometheus helm3
             key: prometheus-additional.yaml
         ...
         ```
+### Jupyter Notebook Logging to MLflow
+
+Add the code to a cell in your Jupyter Notebook
+Replace http://<span></span>host:port with your MLflow endpoint and MinIO endpoint
+Check endpoints with `kubectl get svc -A`
+
+```bash
+%%capture
+!pip install --upgrade pip --user
+!pip install mlflow[extras] --user
+%env MLFLOW_TRACKING_URI=http://host:port
+%env MLFLOW_S3_ENDPOINT_URL=http://host:port
+%env AWS_ACCESS_KEY_ID=minio
+%env AWS_SECRET_ACCESS_KEY=minio123
+```
