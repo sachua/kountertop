@@ -89,7 +89,9 @@ microk8s enable dns storage metrics-server metallb prometheus helm3
     --version=0.9.0 \
     --values config.yaml
     ```
-
+    
+    * Template for using AD instead of OpenLDAP is provided in [AD-config](AD-config.yaml)
+    
 5. Deploy Tensorflow Serving
 
     ```bash
