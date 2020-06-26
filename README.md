@@ -1,4 +1,4 @@
-![Kountertop](./images/Kountertop.png)
+![Kountertop](./images/Kountertop_blue.png)
 
 Kountertop is an ML toolkit that integrates the best-of-breed open-source ML systems to address the Build-Train-Serve workflow in Machine Learning.
 
