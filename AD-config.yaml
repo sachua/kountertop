@@ -1,0 +1,55 @@
+proxy:
+  secretToken: "a8f24670768b4ec13770e938e94c2525a8bc80348c13729e464daab665e7a76f"
+auth:
+  type: ldap
+  admin:
+    access: true
+    users:
+      - sachua
+  ldap:
+    server:
+      address: 192.168.221.138
+    dn:
+      lookup: false
+      search:
+        filter: '({login_attr}={login})'
+        user: 'Administrator'
+        password: 'admin'
+      templates:
+        - 'cn={username},ou=People,dc=contoso,dc=com'
+      user:
+        searchBase: 'ou=People,dc=contoso,dc=com'
+        escape: False
+        attribute: 'sAMAccountName'
+        dnAttribute: 'cn'
+    allowedGroups:
+      - 'cn=scientist,ou=Teams,dc=contoso,dc=com'
+singleuser:
+  cpu:
+    limit: .5
+    guarantee: .5
+  image:
+    name: jupyter/minimal-notebook
+    tag: 2343e33dec46
+  profileList:
+    - display_name: "Minimal environment"
+      description: "To avoid too much bells and whistles: Python."
+      default: true
+    - display_name: "Datascience environment"
+      description: "If you want the additional bells and whistles: Python, R, and Julia."
+      kubespawner_override:
+        image: jupyter/datascience-notebook:2343e33dec46
+    - display_name: "Spark environment"
+      description: "The Jupyter Stacks spark image!"
+      kubespawner_override:
+        image: jupyter/all-spark-notebook:2343e33dec46
+    - display_name: "Learning Data Science"
+      description: "Datascience Environment with Sample Notebooks"
+      kubespawner_override:
+        image: jupyter/datascience-notebook:2343e33dec46
+    - display_name: "Sagemath environment"
+      description: "The Jupyter Stacks sagemath image!"
+      kubespawner_override:
+        image: sharptrick/sage-notebook:36995fef8dda
+  extraEnv:
+    EDITOR: "vim"
