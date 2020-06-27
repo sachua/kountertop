@@ -149,7 +149,9 @@ microk8s enable dns storage metrics-server metallb prometheus helm3
 ### Jupyter Notebook Logging to MLflow
 
 Add the code to a cell in your Jupyter Notebook
+
 Replace http://<span></span>host:port with your MLflow endpoint and MinIO endpoint
+
 Check endpoints with `kubectl get svc -A`
 
 ```bash
