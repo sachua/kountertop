@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: mlflow-server
-        image: mlflow_server
+        image: sachua/mlflow-server:latest
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh"]
         args: ["-c","mlflow server --backend-store-uri mysql+pymysql://mlflow_user:mlflow@mlflow-mysql.default:3306/mlflow_database --default-artifact-root s3://mlflow/ --host 0.0.0.0"]

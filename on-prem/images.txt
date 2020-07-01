@@ -18,3 +18,4 @@ jupyter/all-spark-notebook:2343e33dec46
 osixia/openldap:1.2.4
 osixia/phpldapadmin:0.8.0
 velero/velero-plugin-for-aws:v1.1.0
+sachua/mlflow-server:latest

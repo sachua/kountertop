@@ -56,14 +56,10 @@ microk8s enable dns storage metrics-server metallb prometheus helm3
 
 2. Deploy MLflow
 
-    * First, build the MLflow image using the Dockerfile in [mlflow-dockerfile](./mlflow-dockerfile)
-
-    * Then apply the deployments
-
-        ```bash
-        kubectl apply -f mlflow-mysql-deployment.yaml
-        kubectl apply -f mlflow-ui-deployment.yaml
-        ```
+    ```bash
+    kubectl apply -f mlflow-mysql-deployment.yaml
+    kubectl apply -f mlflow-ui-deployment.yaml
+    ```
 
 3. Deploy OpenLDAP
 
