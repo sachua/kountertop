@@ -29,8 +29,8 @@ singleuser:
     limit: .5
     guarantee: .5
   image:
-    name: jupyter/minimal-notebook
-    tag: 2343e33dec46
+    name: sachua/jupyter-mlflow
+    tag: latest
   profileList:
     - display_name: "Minimal environment"
       description: "To avoid too much bells and whistles: Python."
