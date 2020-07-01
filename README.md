@@ -143,19 +143,23 @@ microk8s enable dns storage metrics-server metallb prometheus helm3
         ...
         ```
 ### Jupyter Notebook Logging to MLflow
+The default minimal notebook image is already integrated with MLflow
 
-Add the code to a cell in your Jupyter Notebook
+To use the MLflow loggin feature for custom notebooks, you can build your own jupyter image from `sachua/jupyter-mlflow:latest` and install your own packages
 
-Replace http://<span></span>host:port with your MLflow endpoint and MinIO endpoint
+Alternatively, install MLflow in your custom notebook:
+* Add the code to a cell in your Jupyter Notebook
 
-Check endpoints with `kubectl get svc -A`
+    ```bash
+    %%capture
+    !pip install --upgrade pip --user
+    !pip install mlflow[extras] --user
+    %env MLFLOW_TRACKING_URI=http://host:port
+    %env MLFLOW_S3_ENDPOINT_URL=http://host:port
+    %env AWS_ACCESS_KEY_ID=minio
+    %env AWS_SECRET_ACCESS_KEY=minio123
+    ```
 
-```bash
-%%capture
-!pip install --upgrade pip --user
-!pip install mlflow[extras] --user
-%env MLFLOW_TRACKING_URI=http://host:port
-%env MLFLOW_S3_ENDPOINT_URL=http://host:port
-%env AWS_ACCESS_KEY_ID=minio
-%env AWS_SECRET_ACCESS_KEY=minio123
-```
+    * Replace http://<span></span>host:port with your MLflow endpoint and MinIO endpoint
+
+    * Check endpoints with `kubectl get svc -A`
