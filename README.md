@@ -105,7 +105,7 @@ microk8s enable dns storage metrics-server metallb prometheus helm3
     export PATH=$PATH:"/$HOME/kountertop"
     velero install \
      --provider aws \
-     --plugins harbor.dev.gov.sg/kountertop/velero/velero-plugin-for-aws:v1.1.0 \
+     --plugins velero/velero-plugin-for-aws:v1.1.0 \
      --bucket velero \
      --secret-file ./credentials-velero \
      --use-volume-snapshots=false \
