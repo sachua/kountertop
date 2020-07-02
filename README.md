@@ -126,20 +126,20 @@ microk8s enable dns storage metrics-server metallb prometheus helm3
         kubectl edit prometheus k8s -n monitoring
         ```
 
-        ```bash
-        apiVersion: monitoring.coreos.com/v1
-        kind: Prometheus
-        metadata:
-        name: prometheus
-        labels:
-            prometheus: prometheus
-        spec:
-        replicas: 1
-        serviceAccountName: prometheus
-        serviceMonitorSelector:
-        additionalScrapeConfigs:
-            name: additional-scrape-configs
-            key: prometheus-additional.yaml
+        ```diff
+            apiVersion: monitoring.coreos.com/v1
+            kind: Prometheus
+            metadata:
+            name: prometheus
+            labels:
+                prometheus: prometheus
+            spec:
+            replicas: 1
+            serviceAccountName: prometheus
+            serviceMonitorSelector:
+        +   additionalScrapeConfigs:
+        +       name: additional-scrape-configs
+        +       key: prometheus-additional.yaml
         ...
         ```
 ### Jupyter Notebook Logging to MLflow
