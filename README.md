@@ -18,7 +18,7 @@ Kountertop is an ML toolkit that integrates the best-of-breed open-source ML sys
 
 ## How to install
 
-We will be using MicroK8S, but you can configure it to use with any other Kubernetes provider as well!
+We will be using MicroK8s, but you can configure it to use with any other Kubernetes provider as well!
 
 Clone this repository to your `$HOME` directory
 
