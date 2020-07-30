@@ -160,6 +160,6 @@ Alternatively, install MLflow in your custom notebook:
     %env AWS_SECRET_ACCESS_KEY=minio123
     ```
 
-    * Replace http://<span></span>host:port with your MLflow endpoint and MinIO endpoint
+    * Replace `http://host:port` with your MLflow endpoint and MinIO endpoint
 
     * Check endpoints with `kubectl get svc -A`
