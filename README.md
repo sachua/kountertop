@@ -1,6 +1,6 @@
 ![Kountertop](./images/Kountertop_blue.png)
 
-Kountertop is an ML toolkit that integrates the best-of-breed open-source ML systems to address the Build-Train-Serve workflow in Machine Learning.
+Kountertop is an ML toolkit that integrates the best-of-breed open-source ML systems to address the Build-Train-Deploy workflow in Machine Learning.
 
  * Features a centralized model building and experimentation platform
  * High performance, high availability, model versioning supported ML model serving platform
